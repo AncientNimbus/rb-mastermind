@@ -11,13 +11,13 @@ module CliHelper
   # @param msg [String] prompt to print to the user
   # @param err_msg [String] display warning message when on invalid inputs
   # @return [String] user input
-  def get_input(reg = /.*/, msg = 'Enter your input...', err_msg = nil, exit_str: 'exit')
+  def get_input(reg = /.*/, msg = 'Enter your input...', err_msg = nil, exit_str: 'exit', type_mode: false)
     input_value = ''
     first_entry = true
 
     until input_value.match?(reg) && !input_value.empty?
       message = first_entry ? msg : err_msg
-      puts "\n* #{message}"
+      slowed_reply(["\n* #{message}"], type_mode: type_mode)
       first_entry = false
 
       input_value = gets.chomp
@@ -29,8 +29,8 @@ module CliHelper
   # A method that prints text to the console one character at a time.
   # @param str [String] text to print
   # @param delay [Float] character output rate in second
-  # @return an empty line
-  def typewriter(str, delay: 0.1)
+  # @return [nil] an empty line
+  def typewriter(str, delay: 0.05)
     str.each_char do |char|
       print char
       sleep(delay)
@@ -44,7 +44,8 @@ module CliHelper
   # @param delay [Float] line output rate in second
   # @param type_mode [Boolean] toggle true to enable typewriter style output
   # @param tw_delay [Float] character output rate in second
-  def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.1)
+  # @return [void]
+  def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.05)
     str_arr.each do |str|
       if type_mode
         print typewriter(str, delay: tw_delay)
@@ -53,5 +54,12 @@ module CliHelper
       end
       sleep(delay)
     end
+  end
+
+  # A method that prints a message upon exiting the program.
+  # @param str [String] text to print when user exit the program
+  # @return [void]
+  def self.do_at_exit(str = '* Bye~')
+    at_exit { puts str }
   end
 end
