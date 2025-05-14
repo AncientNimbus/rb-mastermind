@@ -10,7 +10,7 @@ module CliHelper
   # @param msg [String] prompt to print to the user
   # @param err_msg [String] display warning message when on invalid inputs
   # @return [String] user input
-  def self.get_input(reg, msg, err_msg = nil)
+  def self.get_input(reg, msg, err_msg = nil, exit_str: 'exit')
     input_value = ''
     first_entry = true
 
@@ -20,7 +20,7 @@ module CliHelper
       first_entry = false
 
       input_value = gets.chomp
-      exit if input_value == FLOW.dig(:keys, :exit)
+      exit if input_value == exit_str
     end
     input_value
   end
