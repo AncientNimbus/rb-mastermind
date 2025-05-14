@@ -14,7 +14,7 @@ module MastermindAssets
 
     shape: { x: 'X', o: 'O' },
 
-    rst: { re: /\byes\b/, msg: "\n* Restart? (Type: yes)",
+    rst: { re: /\byes|y\b/, msg: "Restart? Type: 'y'/'yes' or 'exit' to quit",
            err_msg: 'Please enter a valid input!' },
 
     player: { re: /.*/, msg: ->(num) { "Please name Player #{num}" }, err_msg: 'Name cannot be empty!' },
@@ -22,9 +22,8 @@ module MastermindAssets
     ai: { name: 'Computer', feedback_msg1: ->(name) { "\n* #{name} is thinking..." },
           feedback_msg2: ->(name, num) { "* #{name} has chose grid #{num}!" } },
 
-    play: { re: /\A[1-9]\z/, msg: lambda { |name|
-      "It is #{name}'s turn, choose from grid number 1 to 9"
-    }, err_msg: 'Invalid input, choose again!' },
+    play: { re: /\A[1-6]{4}\z/, msg: 'Make a guess...',
+            err_msg: 'Invalid input! Enter a 4-digit number between 1-6 (e.g., 4216)' },
 
     first_turn: { msg: lambda { |name|
       "\n* Randomly picking who is starting first... \n* #{name} will make the first turn"

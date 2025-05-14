@@ -51,7 +51,7 @@ module CliHelper
   # @param tw_delay [Float] character output rate in second
   # @return [void]
   # @version 1.2.0
-  def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.05)
+  def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.04)
     disable_user_input?(true)
     str_arr.each do |str|
       if type_mode
@@ -65,6 +65,8 @@ module CliHelper
   end
 
   # A method that masked user input
+  # @return [String]
+  # @version 1.0.0
   def get_secret(str = 'Enter your secret: ')
     print str
     secret = $stdin.noecho(&:gets).chomp
@@ -73,6 +75,8 @@ module CliHelper
   end
 
   # Disable user input when prompt is printing
+  # @param toggle [Boolean] toggle true to disable user input
+  # @version 1.0.0
   def disable_user_input?(toggle)
     if toggle
       $stdin.echo = false

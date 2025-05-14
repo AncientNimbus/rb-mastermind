@@ -14,22 +14,20 @@ class Mastermind
   include Logic
   include MastermindAssets
 
-  attr_accessor :all_codes
-  attr_reader :turns, :digits_arr, :slots, :mode, :secret_code
+  attr_accessor :all_codes, :turns, :digits_arr, :slots, :mode, :secret_code, :turn, :win, :p1, :ai
+  attr_reader :game_config
 
   PEGS = { 1 => :green, 2 => :yellow, 3 => :blue, 4 => :magenta, 5 => :cyan, 6 => :red }.freeze
   STATES = { good: :red, off: :white, wrong: :grey }.freeze
 
-  def initialize(turns = 12, digits: 6, slots: 4)
+  def initialize(turns = 3, digits: 6, slots: 4)
     # pre-game
-    @mode = get_input(MSGS.dig(:mode, :re), MSGS.dig(:mode, :msg), MSGS.dig(:mode, :err_msg), type_mode: true)
-    # @mode = input_v2(MSGS.dig(:mode, :re), MSGS.dig(:mode, :msg), MSGS.dig(:mode, :err_msg))
+    @mode = prompt_handler(:mode).to_i
     # Game board configuration
-    init_game(turns, digits, slots)
+    @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
+    mode_selection
 
     debug
-
-    # test = Computer.new('Computer', 'CodeMaker')
     # test.save_turn(1, [1, 2, 3, 4], [1, 2]) # possible save format
   end
 
@@ -38,34 +36,82 @@ class Mastermind
   end
 
   def mode_selection
-    # puts mode == 1 ? FLOW.dig(:mode, :pvp) : FLOW.dig(:mode, :pve)
-    # @p1 = create_player
-    # self.p2 = if mode == 1
-    #             create_player
-    #           else
-    #             Computer.new
-    #           end
-    # new_game
+    mode == 1 ? typewriter(MSGS.dig(:mode, :pve)) : typewriter(MSGS.dig(:mode, :evp))
+    @p1 = create_player
+    @ai = Computer.new
+
+    new_game
   end
 
-  def init_game(turns, digits, slots)
-    @turns = turns
-    @digits_arr = (1..digits).to_a
-    @slots = slots
+  def create_player
+    Player.new(get_input(MSGS.dig(:player, :re), MSGS.dig(:player, :msg).call('P1'), MSGS.dig(:player, :err_msg)))
+  end
+
+  def init_game
+    @turns = game_config[:turns]
+    @digits_arr = game_config[:digits]
+    @slots = game_config[:slots]
 
     @all_codes = all_combinations
     @secret_code = code_picker
+
+    @turn = 1
+    @win = false
+
+    p1.clear_save
+    ai.clear_save
+  end
+
+  def game_loop
+    until win || turn > turns
+      p "Cheat: Secret is #{secret_code.join}"
+      p1.save_turn(turn, prompt_handler(:play))
+
+      p1.game_save.each_value do |guess|
+        self.win = guess.join.match?(secret_code.join) || false
+      end
+
+      self.turn += 1
+
+      p p1.game_save
+
+    end
+    announce_winner
+  end
+
+  def new_game
+    init_game
+    game_loop
+  end
+
+  # Display winner's messages
+  def announce_winner
+    puts 'Somebody win'
+    restart
+  end
+
+  # Prompt user to restart the game
+  def restart
+    prompt_handler(:rst) ? new_game : exit
   end
 
   private
 
-  # pick one code randomly
-  def code_picker
-    random_picker(all_codes)
+  # Helper to trim down repeated typing when accessing eternal textfile.
+  # @param msg_key [:Symbol] expects message key value, reference MastermindAssets for more info.
+  def prompt_handler(msg_key, type_mode: true)
+    get_input(MSGS.dig(msg_key, :re), MSGS.dig(msg_key, :msg), MSGS.dig(msg_key, :err_msg), type_mode: type_mode)
   end
 
+  # Determine how the code is created based on game mode.
+  def code_picker
+    mode == 1 ? ai.code_gen(all_codes) : [1, 2, 3, 4]
+  end
+
+  # Debug method
+  #  delete me
   def debug
-    p digits_arr
+    p
   end
 end
 
@@ -77,7 +123,6 @@ end
 #    1. Empty: Wrong guess
 #    2. White: In the code, but not in the right position
 #    3. Red: In the code, and in the right place
-# 3. Method that will accept a 4 numbered sequence and save it as secret
 # 4. Display a row that will show user / computer’s guess (4 main slots)
 # 5. Display hints (4 mini slots next to the main slots)
 # 6. Let user to be code maker
@@ -86,7 +131,4 @@ end
 # 9. Let computer to be code breaker
 # 11. Get computer random input
 # 12. Get input from algorithmic solver (hardest part of the project!)
-# 13. Game last for 12 turns
-# 14. Offer to restart
-# 15. Offer to exit
 # 18. ASCII Banner (Extra: Finesse)
