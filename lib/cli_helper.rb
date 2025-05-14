@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'io/console'
+
 # CLI Operations helper module
 #
 # @author Ancient Nimbus
@@ -10,7 +12,9 @@ module CliHelper
   # @param reg [Regexp] a Regex pattern to check against user inputs
   # @param msg [String] prompt to print to the user
   # @param err_msg [String] display warning message when on invalid inputs
+  # @param type_mode [Boolean] toggle true to enable typewriter style output
   # @return [String] user input
+  # @version 2.0.1
   def get_input(reg = /.*/, msg = 'Enter your input...', err_msg = nil, exit_str: 'exit', type_mode: false)
     input_value = ''
     first_entry = true
@@ -30,6 +34,7 @@ module CliHelper
   # @param str [String] text to print
   # @param delay [Float] character output rate in second
   # @return [nil] an empty line
+  # @version 1.0.0
   def typewriter(str, delay: 0.05)
     str.each_char do |char|
       print char
@@ -45,7 +50,9 @@ module CliHelper
   # @param type_mode [Boolean] toggle true to enable typewriter style output
   # @param tw_delay [Float] character output rate in second
   # @return [void]
+  # @version 1.2.0
   def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.05)
+    disable_user_input?(true)
     str_arr.each do |str|
       if type_mode
         print typewriter(str, delay: tw_delay)
@@ -54,11 +61,31 @@ module CliHelper
       end
       sleep(delay)
     end
+    disable_user_input?(false)
+  end
+
+  # A method that masked user input
+  def get_secret(str = 'Enter your secret: ')
+    print str
+    secret = $stdin.noecho(&:gets).chomp
+    puts
+    secret
+  end
+
+  # Disable user input when prompt is printing
+  def disable_user_input?(toggle)
+    if toggle
+      $stdin.echo = false
+    else
+      $stdout.flush
+      $stdin.echo = true
+    end
   end
 
   # A method that prints a message upon exiting the program.
   # @param str [String] text to print when user exit the program
   # @return [void]
+  # @version 1.0.0
   def self.do_at_exit(str = '* Bye~')
     at_exit { puts str }
   end
