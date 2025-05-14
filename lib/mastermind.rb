@@ -10,9 +10,15 @@ require_relative 'cli_helper'
 #
 # @author Ancient Nimbus
 class Mastermind
+  include CliHelper
+  include Logic
+  include MastermindAssets
+
   def initialize
     p 'Mastermind'
   end
+
+  at_exit { puts "\n* Thank you for playing LLAP 🖖" }
 end
 
 # ### Game variations

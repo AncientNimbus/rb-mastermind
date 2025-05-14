@@ -4,11 +4,11 @@
 #
 # @author Ancient Nimbus
 module MastermindAssets
-  # TODO: ASCII Banner
-  # TODO: Program info
-  # TODO: Game introduction
-  # TODO: Game board design
-  # TODO: Game flow design
-  # TODO: User messages
-  # TODO: Input warnings
+  # @todo: ASCII Banner
+  # @todo: Program info
+  # @todo: Game introduction
+  # @todo: Game board design
+  # @todo: Game flow design
+  # @todo: User messages
+  # @todo: Input warnings
 end
