@@ -1,11 +1,23 @@
 # frozen_string_literal: true
 
+require 'colorize'
+require_relative 'mastermind_assets'
+require_relative 'player'
+require_relative 'logic'
+require_relative 'cli_helper'
+
+# Base class for the game Mastermind.
+#
+# @author Ancient Nimbus
+class Mastermind
+  def initialize
+    p 'Mastermind'
+  end
+end
+
 # ### Game variations
-
 # Mastermind original: 6 colours and 4 holes
-
 # ### Requirements
-
 # 1. A set of codes from 1 - 6 represented by 6 different colours
 # 2. 3 states per row positions: Red, White, and Empty
 #    1. Empty: Wrong guess
