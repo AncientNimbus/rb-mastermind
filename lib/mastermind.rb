@@ -23,6 +23,7 @@ class Mastermind
   STATES = { red: :red, white: :white, default: :grey }.freeze
 
   def initialize(turns = 12, digits: 6, slots: 4)
+    # puts HELP
     welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
@@ -35,7 +36,7 @@ class Mastermind
     slowed_reply(START)
     gets
     slowed_reply(LOGO, tw_delay: 0.0025)
-    slowed_reply(HELP, tw_delay: 0.03)
+    slowed_reply(HOW, tw_delay: 0.025)
   end
 
   # Prompt user to select a mode and start the game mode accordingly

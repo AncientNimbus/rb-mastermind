@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.7.3
+# @version 0.7.4
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -17,6 +17,40 @@ module MastermindAssets
     enter_cmd: 'enter'.colorize(:green),
     exit_cmd: 'exit'.colorize(:yellow)
   }.freeze
+
+  # Display Formatter
+  DF = {
+    d1: '❶'.colorize(:green),
+    d2: '❷'.colorize(:yellow),
+    d3: '❸'.colorize(:blue),
+    d4: '❹'.colorize(:magenta),
+    d5: '❺'.colorize(:cyan),
+    d6: '❻'.colorize(:red),
+    h0: '◌'.colorize(:light_grey),
+    h1: '●'.colorize(:white),
+    h2: '●'.colorize(:red)
+  }.freeze
+
+  # Game row preview
+  ROW = <<~ROW.freeze
+    *-----+-----+-----+-----*---+---*
+    |     |     |     |     | #{DF[:h0]} | #{DF[:h1]} |
+    |  #{DF[:d1]}  |  #{DF[:d3]}  |  #{DF[:d4]}  |  #{DF[:d2]}  |---+---|
+    |     |     |     |     | #{DF[:h2]} | #{DF[:h0]} |
+    *-----+-----+-----+-----*---+---*
+  ROW
+
+  # Helper method to build help string
+  def self.build_help
+    arr = []
+    6.to_i.times do |idx|
+      arr.push("#{DF[:"d#{idx + 1}"]} ➜ #{idx + 1}")
+    end
+    arr
+  end
+  # Input Helper
+  HELP = MastermindAssets.build_help.join(' ')
+
   # Pre-launch info
   START = <<~PRE.freeze
     |<<=============|Reference this line to adjust your console window width for the best experience|=============>>|
@@ -24,6 +58,7 @@ module MastermindAssets
     * Hi there!
     * When you are ready, press #{TFH[:enter_cmd]} to start...
   PRE
+
   # Banner for the program
   LOGO = <<~'LOGO'.colorize(:green)
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
@@ -35,11 +70,12 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.3                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.4                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
+
   # How to play
-  HELP = <<~HELP.freeze
+  HOW = <<~HOW.freeze
     How-to-play:
      * The Code Maker will create a #{TFH[:digits]} digits sequence secret code.
      * Each digit is set between #{TFH[:min_d]} to #{TFH[:max_d]}, and it can repeat. For example: 1216, 6542, 1166...
@@ -47,14 +83,20 @@ module MastermindAssets
      * After each guess, Code Breaker will receive a feedback represented by red and/or white dots.
      * Red dot indicates the digit value is in the code, and at the right slot.
      * White dot indicates the digit value is in the code, but at the wrong slot.
+     * The hints are not in order.
      * Win the game by making the right guess within #{TFH[:turns]} turns.
 
     Mode selection:
      * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess code!
      * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test!
 
+    Game layout:
+    #{ROW}
+     * #{HELP}
+
     You can type #{TFH[:exit_cmd]} to leave the game at any point.
-  HELP
+  HOW
+
   # Text strings for the game
   MSGS = {
     keys: { exit: 'exit', yes: 'yes' },
@@ -86,6 +128,5 @@ module MastermindAssets
     lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } }
   }.freeze
 
-  # @todo: Game board design
   # @todo: Game flow design
 end
