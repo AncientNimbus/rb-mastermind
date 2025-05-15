@@ -23,15 +23,19 @@ class Mastermind
   STATES = { red: :red, white: :white, default: :grey }.freeze
 
   def initialize(turns = 12, digits: 6, slots: 4)
-    # Welcome
-    slowed_reply([START.colorize(:yellow)])
-    gets
-    slowed_reply([LOGO.colorize(:green)], tw_delay: 0.0025)
-
+    welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
     # Enter game session
     mode_selection
+  end
+
+  # Greeting sequence when player launch the program for the first time.
+  def welcome
+    slowed_reply(START.colorize(:yellow))
+    gets
+    slowed_reply(LOGO.colorize(:green), tw_delay: 0.0025)
+    slowed_reply(HELP, tw_delay: 0.03)
   end
 
   # Prompt user to select a mode and start the game mode accordingly
@@ -43,12 +47,14 @@ class Mastermind
     @p1 = create_player
     @ai = Computer.new
 
+    slowed_reply("* Welcome to Mastermind, #{p1.name} ;)")
     new_game(mode)
   end
 
   # Access the Player class to create a human player
   def create_player
-    Player.new(get_input(MSGS.dig(:player, :re), MSGS.dig(:player, :msg).call('P1'), MSGS.dig(:player, :err_msg)))
+    Player.new(get_input(MSGS.dig(:player, :re), MSGS.dig(:player, :msg).call(Player.total_player + 1),
+                         MSGS.dig(:player, :err_msg)))
   end
 
   # Pre-game setup, configuring the environment and setup instance variables.

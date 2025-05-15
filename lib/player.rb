@@ -9,11 +9,13 @@ require_relative 'logic'
 class Player
   include Logic
 
+  @number_of_player = 0
   attr_accessor :name, :role, :game_save
 
   def initialize(name)
     @name = name
     @game_save = {}
+    Player.count_player
   end
 
   # Save actions performed by the player
@@ -28,6 +30,14 @@ class Player
 
   def view_turn(turn)
     game_save[turn]
+  end
+
+  def self.count_player
+    @number_of_player += 1
+  end
+
+  def self.total_player
+    @number_of_player
   end
 end
 

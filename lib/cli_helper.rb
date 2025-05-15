@@ -15,13 +15,13 @@ module CliHelper
   # @param type_mode [Boolean] toggle true to enable typewriter style output
   # @return [String] user input
   # @version 2.0.1
-  def get_input(reg = /.*/, msg = 'Enter your input...', err_msg = nil, exit_str: 'exit', type_mode: false)
+  def get_input(reg = /.*/, msg = 'Enter your input...', err_msg = nil, exit_str: 'exit', type_mode: true)
     input_value = ''
     first_entry = true
 
     until input_value.match?(reg) && !input_value.empty?
       message = first_entry ? msg : err_msg
-      slowed_reply(["\n* #{message}"], type_mode: type_mode)
+      slowed_reply("\n* #{message}", type_mode: type_mode)
       first_entry = false
 
       input_value = gets.chomp
@@ -52,13 +52,11 @@ module CliHelper
   # @return [void]
   # @version 1.2.0
   def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.04)
+    str_arr = [str_arr] if str_arr.is_a?(String)
     disable_user_input?(true)
+    puts
     str_arr.each do |str|
-      if type_mode
-        print typewriter(str, delay: tw_delay)
-      else
-        puts str
-      end
+      type_mode ? typewriter(str, delay: tw_delay) : puts(str)
       sleep(delay)
     end
     disable_user_input?(false)
