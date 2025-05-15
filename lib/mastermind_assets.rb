@@ -4,17 +4,28 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.7.2
+# @version 0.7.3
 module MastermindAssets
+  # Text Formatting helper
+  TFH = {
+    digits: '4'.colorize(:yellow),
+    min_d: '1'.colorize(:yellow),
+    max_d: '6'.colorize(:yellow),
+    turns: '12'.colorize(:yellow),
+    mode1: '1'.colorize(:yellow),
+    mode2: '2'.colorize(:yellow),
+    enter_cmd: 'enter'.colorize(:green),
+    exit_cmd: 'exit'.colorize(:yellow)
+  }.freeze
   # Pre-launch info
-  START = <<~'PRE'
+  START = <<~PRE.freeze
     |<<=============|Reference this line to adjust your console window width for the best experience|=============>>|
 
     * Hi there!
-    * When you are ready, press 'enter' to start...
+    * When you are ready, press #{TFH[:enter_cmd]} to start...
   PRE
   # Banner for the program
-  LOGO = <<~'LOGO'
+  LOGO = <<~'LOGO'.colorize(:green)
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
     |  ___      ___      __       ________ ___________ _______  _______  ___      ___  __   _____  ___  ________    |
     + |"  \    /"  |    /""\     /"       ("     _   "/"     "|/"      \|"  \    /"  ||" \ (\"   \|"  \|"      "\   +
@@ -24,32 +35,32 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.2                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.3                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
   # How to play
   HELP = <<~HELP.freeze
     How-to-play:
-     * The Code Maker will create a #{'4'.colorize(:yellow)} digits sequence secret code.
-     * Each digit is set between 1 to 6, and it can repeat. For example: 1216, 6542, 1166...
+     * The Code Maker will create a #{TFH[:digits]} digits sequence secret code.
+     * Each digit is set between #{TFH[:min_d]} to #{TFH[:max_d]}, and it can repeat. For example: 1216, 6542, 1166...
      * The Code Breaker's goal is to try guess the secret code.
      * After each guess, Code Breaker will receive a feedback represented by red and/or white dots.
      * Red dot indicates the digit value is in the code, and at the right slot.
      * White dot indicates the digit value is in the code, but at the wrong slot.
-     * Win the game by making the right guess within #{'12 turns'.colorize(:yellow)}.
+     * Win the game by making the right guess within #{TFH[:turns]} turns.
 
     Mode selection:
-     * #{'[1]'.colorize(:yellow)} Become the Code Breaker - Try to guess code!
-     * #{'[2]'.colorize(:yellow)} Become the Code Maker   - Put your computer to the test!
+     * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess code!
+     * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test!
 
-    You can type #{'exit'.colorize(:yellow)} to leave the game at any point.
+    You can type #{TFH[:exit_cmd]} to leave the game at any point.
   HELP
   # Text strings for the game
   MSGS = {
     keys: { exit: 'exit', yes: 'yes' },
 
     mode: { re: /\A[1-2]\z/,
-            msg: 'Select a mode to continue... (Type: 1 or 2)',
+            msg: "Select a mode to continue... (Type: #{TFH[:mode1]} or #{TFH[:mode2]})",
             err_msg: 'Please enter a valid mode number!',
             evp: '* Code Maker mode selected',
             pve: '* Code Breaker mode selected' },
@@ -75,7 +86,6 @@ module MastermindAssets
     lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } }
   }.freeze
 
-  # @todo: Game introduction
   # @todo: Game board design
   # @todo: Game flow design
 end

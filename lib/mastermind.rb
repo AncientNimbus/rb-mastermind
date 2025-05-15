@@ -32,9 +32,9 @@ class Mastermind
 
   # Greeting sequence when player launch the program for the first time.
   def welcome
-    slowed_reply(START.colorize(:yellow))
+    slowed_reply(START)
     gets
-    slowed_reply(LOGO.colorize(:green), tw_delay: 0.0025)
+    slowed_reply(LOGO, tw_delay: 0.0025)
     slowed_reply(HELP, tw_delay: 0.03)
   end
 
