@@ -26,4 +26,51 @@ module Logic
   def random_picker(arr, output_elem = 1)
     arr.sample(output_elem)
   end
+
+  # Compares a guess against the secret code and returns
+  #  the count of exact matches (red) and value matches (white) as a hash.
+  # @param guess [Array<Integer>] the guessed code
+  # @param secret [Array<Integer>] the secret code to compare against
+  # @return [Hash] A hash with keys :red and :white indicating the match counts
+  # @version 1.0.0
+  def compare_value(guess, secret)
+    reds = count_exact_matches(guess, secret)
+    whites = count_value_matches(guess, secret)
+
+    { red: reds, white: whites }
+  end
+
+  # Counts the number of exact matches (same value at the same index)
+  #  Modifies the guess and secret arrays by setting matched elements to nil.
+  # @param guess [Array<Integer>] the guessed code
+  # @param secret [Array<Integer>] the secret code to compare against
+  # @return [Integer] The count of exact matching values
+  # @version 1.0.0
+  def count_exact_matches(guess, secret)
+    guess.each_with_index.count do |val, idx|
+      if val == secret[idx]
+        guess[idx] = secret[idx] = nil
+        true
+      else
+        false
+      end
+    end
+  end
+
+  # Counts the number of matching values.
+  # Removing matched values from the secret to avoid duplicate matches.
+  # @param guess [Array<Integer>] the guessed code
+  # @param secret [Array<Integer>] the secret code to compare against
+  # @return [Integer] The count of matching values
+  # @version 1.0.0
+  def count_value_matches(guess, secret)
+    count = 0
+    guess.compact.each do |val|
+      if secret.include?(val)
+        secret[secret.index(val)] = nil
+        count += 1
+      end
+    end
+    count
+  end
 end
