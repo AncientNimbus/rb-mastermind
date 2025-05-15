@@ -76,13 +76,15 @@ module Logic
   end
 
   # Convert hints hash to array
-  def hints_to_arr(hints)
+  #
+  # @version 2.0.0
+  def hints_to_arr(hints, shuffle: true)
     arr = []
     hints.each_pair do |key, value|
       value.times do
         arr.push(key == :red ? 2 : 1)
       end
     end
-    arr
+    shuffle ? arr.shuffle : arr
   end
 end

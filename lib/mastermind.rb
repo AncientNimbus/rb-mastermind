@@ -23,7 +23,6 @@ class Mastermind
   STATES = { red: :red, white: :white, default: :grey }.freeze
 
   def initialize(turns = 12, digits: 6, slots: 4)
-    puts row_builder
     # welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
@@ -59,8 +58,9 @@ class Mastermind
   end
 
   # Build the game display
-  def row_builder(guess = [0, 0, 0, 0], hints = [0, 0, 0, 0])
-    <<~ROW
+  def row_builder(guess = [0, 0, 0, 0], hints = [0, 0, 0, 0], title: "Turn: #{turn}")
+    puts <<~ROW
+      #{title}
       *-----+-----+-----+-----*---+---*
       |     |     |     |     | #{DF[:"h#{hints.fetch(0, 0)}"]} | #{DF[:"h#{hints.fetch(1, 0)}"]} |
       |  #{DF[:"d#{guess.fetch(0, 0)}"]}  |  #{DF[:"d#{guess.fetch(1, 0)}"]}  |  #{DF[:"d#{guess.fetch(2, 0)}"]}  |  #{DF[:"d#{guess.fetch(3, 0)}"]}  |---+---|
@@ -88,13 +88,13 @@ class Mastermind
   # Core game loop
   def game_loop
     until win || turn > turns
-      p "Cheat: Secret is #{secret_code}"
+      # p "Cheat: Secret is #{secret_code}"
       guess = prompt_handler(:play).split('').map(&:to_i)
       hints = compare_value(guess, secret_code)
       p1.save_turn(turn, { guess: guess, hints: hints })
 
-      puts row_builder(guess, hints_to_arr(hints))
-      p p1.view_turn(turn)
+      row_builder(guess, hints_to_arr(hints))
+      # p p1.view_turn(turn)
 
       self.turn += 1
     end
@@ -105,6 +105,8 @@ class Mastermind
   def new_game(mode = 1)
     puts "Starting mode: #{mode}"
     init_game
+    # display a blank board
+    row_builder(title: MSGS[:row_title][:msg])
     game_loop
   end
 
@@ -138,20 +140,8 @@ class Mastermind
   end
 end
 
-# ### Game variations
-# Mastermind original: 6 colours and 4 holes
-# ### Requirements
-# 1. A set of codes from 1 - 6 represented by 6 different colours
-# 2. 3 states per row positions: Red, White, and Empty
-#    1. Empty: Wrong guess
-#    2. White: In the code, but not in the right position
-#    3. Red: In the code, and in the right place
-# 4. Display a row that will show user / computer’s guess (4 main slots)
-# 5. Display hints (4 mini slots next to the main slots)
+# ### TODO Requirements
 # 6. Let user to be code maker
-# 7. Let computer to be code maker (Default behaviour)
-# 8. Let user to be code breaker (Default behaviour)
 # 9. Let computer to be code breaker
-# 11. Get computer random input
-# 12. Get input from algorithmic solver (hardest part of the project!)
-# 18. ASCII Banner (Extra: Finesse)
+# 11. Get computer random input (easy mode)
+# 12. Get input from algorithmic solver (hardest part of the project!) (hard mode)
