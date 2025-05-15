@@ -4,6 +4,26 @@
 #
 # @author Ancient Nimbus
 module MastermindAssets
+  # Pre-launch info
+  START = <<~'PRE'
+    |<<=============|Reference this line to adjust your console window width for the best experience|=============>>|
+
+    * When you are ready, press 'enter' to start...
+  PRE
+  # Banner for the program
+  LOGO = <<~'LOGO'
+    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+    |  ___      ___      __       ________ ___________ _______  _______  ___      ___  __   _____  ___  ________    |
+    + |"  \    /"  |    /""\     /"       ("     _   "/"     "|/"      \|"  \    /"  ||" \ (\"   \|"  \|"      "\   +
+    |  \   \  //   |   /    \   (:   \___/ )__/  \\__(: ______|:        |\   \  //   |||  ||.\\   \    (.  ___  :)  |
+    |  /\\  \/.    |  /' /\  \   \___  \      \\_ /   \/    | |_____/   )/\\  \/.    ||:  ||: \.   \\  |: \   ) ||  |
+    + |: \.        | //  __'  \   __/  \\     |.  |   // ___)_ //      /|: \.        ||.  ||.  \    \. (| (___\ ||  +
+    | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
+    | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
+    +                                                                                                               +
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.1                              |
+    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+  LOGO
   # Text strings for the game
   MSGS = {
     keys: { exit: 'exit', yes: 'yes' },
@@ -33,8 +53,7 @@ module MastermindAssets
 
     win: { msg: ->(name) { "\n* #{name} has won this round!" } }
   }.freeze
-  # @todo: ASCII Banner
-  # @todo: Program info
+
   # @todo: Game introduction
   # @todo: Game board design
   # @todo: Game flow design

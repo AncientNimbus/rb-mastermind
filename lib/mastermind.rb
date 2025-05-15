@@ -17,36 +17,41 @@ class Mastermind
   attr_accessor :all_codes, :turns, :digits_arr, :slots, :mode, :secret_code, :turn, :win, :p1, :ai
   attr_reader :game_config
 
+  # Coloring options for main slots
   PEGS = { 1 => :green, 2 => :yellow, 3 => :blue, 4 => :magenta, 5 => :cyan, 6 => :red }.freeze
-  STATES = { good: :red, off: :white, wrong: :grey }.freeze
+  # Coloring options for hint slots
+  STATES = { red: :red, white: :white, default: :grey }.freeze
 
-  def initialize(turns = 3, digits: 6, slots: 4)
-    # pre-game
-    @mode = prompt_handler(:mode).to_i
+  def initialize(turns = 12, digits: 6, slots: 4)
+    # Welcome
+    slowed_reply([START.colorize(:yellow)])
+    gets
+    slowed_reply([LOGO.colorize(:green)], tw_delay: 0.0025)
+
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
+    # Enter game session
     mode_selection
-
-    debug
-    # test.save_turn(1, [1, 2, 3, 4], [1, 2]) # possible save format
   end
 
-  def all_combinations
-    combinations(digits_arr, slots)
-  end
-
+  # Prompt user to select a mode and start the game mode accordingly
+  # - mode 1: User as the code breaker
+  # - mode 2: Computer as the code breaker
   def mode_selection
+    @mode = prompt_handler(:mode).to_i
     mode == 1 ? typewriter(MSGS.dig(:mode, :pve)) : typewriter(MSGS.dig(:mode, :evp))
     @p1 = create_player
     @ai = Computer.new
 
-    new_game
+    new_game(mode)
   end
 
+  # Access the Player class to create a human player
   def create_player
     Player.new(get_input(MSGS.dig(:player, :re), MSGS.dig(:player, :msg).call('P1'), MSGS.dig(:player, :err_msg)))
   end
 
+  # Pre-game setup, configuring the environment and setup instance variables.
   def init_game
     @turns = game_config[:turns]
     @digits_arr = game_config[:digits]
@@ -62,6 +67,7 @@ class Mastermind
     ai.clear_save
   end
 
+  # Core game loop
   def game_loop
     until win || turn > turns
       p "Cheat: Secret is #{secret_code}"
@@ -71,17 +77,14 @@ class Mastermind
       p p1.view_turn(turn)
       p p1.game_save
 
-      # p1.game_save.each_value do |guess|
-      #   self.win = guess.join.match?(secret_code.join) || false
-      # end
-
       self.turn += 1
-
     end
     announce_winner
   end
 
-  def new_game
+  # Start a new game based on the selected mode
+  def new_game(mode = 1)
+    puts "Starting mode: #{mode}"
     init_game
     game_loop
   end
@@ -94,10 +97,15 @@ class Mastermind
 
   # Prompt user to restart the game
   def restart
-    prompt_handler(:rst) ? new_game : exit
+    prompt_handler(:rst) ? new_game(mode) : exit
   end
 
   private
+
+  # Calculate and return every valid combinations of the game.
+  def all_combinations
+    combinations(digits_arr, slots)
+  end
 
   # Helper to trim down repeated typing when accessing eternal textfile.
   # @param msg_key [:Symbol] expects message key value, reference MastermindAssets for more info.
@@ -108,12 +116,6 @@ class Mastermind
   # Determine how the code is created based on game mode.
   def code_picker
     mode == 1 ? ai.code_gen(all_codes) : [1, 2, 3, 4]
-  end
-
-  # Debug method
-  #  delete me
-  def debug
-    p
   end
 end
 
