@@ -74,4 +74,15 @@ module Logic
     end
     count
   end
+
+  # Convert hints hash to array
+  def hints_to_arr(hints)
+    arr = []
+    hints.each_pair do |key, value|
+      value.times do
+        arr.push(key == :red ? 2 : 1)
+      end
+    end
+    arr
+  end
 end

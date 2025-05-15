@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.7.4
+# @version 0.7.5
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -20,6 +20,7 @@ module MastermindAssets
 
   # Display Formatter
   DF = {
+    d0: '◌'.colorize(:light_grey),
     d1: '❶'.colorize(:green),
     d2: '❷'.colorize(:yellow),
     d3: '❸'.colorize(:blue),
@@ -55,6 +56,8 @@ module MastermindAssets
   START = <<~PRE.freeze
     |<<=============|Reference this line to adjust your console window width for the best experience|=============>>|
 
+    |<<=========================|Avoid typing when text is printing (A fix is coming...)|=========================>>|
+
     * Hi there!
     * When you are ready, press #{TFH[:enter_cmd]} to start...
   PRE
@@ -70,7 +73,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.4                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.7.5                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -87,7 +90,7 @@ module MastermindAssets
      * Win the game by making the right guess within #{TFH[:turns]} turns.
 
     Mode selection:
-     * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess code!
+     * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess the code!
      * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test!
 
     Game layout:

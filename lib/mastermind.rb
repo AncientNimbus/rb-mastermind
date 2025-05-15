@@ -23,8 +23,8 @@ class Mastermind
   STATES = { red: :red, white: :white, default: :grey }.freeze
 
   def initialize(turns = 12, digits: 6, slots: 4)
-    # puts HELP
-    welcome
+    puts row_builder
+    # welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
     # Enter game session
@@ -33,7 +33,7 @@ class Mastermind
 
   # Greeting sequence when player launch the program for the first time.
   def welcome
-    slowed_reply(START)
+    slowed_reply(START, tw_delay: 0.025)
     gets
     slowed_reply(LOGO, tw_delay: 0.0025)
     slowed_reply(HOW, tw_delay: 0.025)
@@ -58,6 +58,17 @@ class Mastermind
                          MSGS.dig(:player, :err_msg)))
   end
 
+  # Build the game display
+  def row_builder(guess = [0, 0, 0, 0], hints = [0, 0, 0, 0])
+    <<~ROW
+      *-----+-----+-----+-----*---+---*
+      |     |     |     |     | #{DF[:"h#{hints.fetch(0, 0)}"]} | #{DF[:"h#{hints.fetch(1, 0)}"]} |
+      |  #{DF[:"d#{guess.fetch(0, 0)}"]}  |  #{DF[:"d#{guess.fetch(1, 0)}"]}  |  #{DF[:"d#{guess.fetch(2, 0)}"]}  |  #{DF[:"d#{guess.fetch(3, 0)}"]}  |---+---|
+      |     |     |     |     | #{DF[:"h#{hints.fetch(2, 0)}"]} | #{DF[:"h#{hints.fetch(3, 0)}"]} |
+      *-----+-----+-----+-----*---+---*
+    ROW
+  end
+
   # Pre-game setup, configuring the environment and setup instance variables.
   def init_game
     @turns = game_config[:turns]
@@ -79,10 +90,11 @@ class Mastermind
     until win || turn > turns
       p "Cheat: Secret is #{secret_code}"
       guess = prompt_handler(:play).split('').map(&:to_i)
-      p1.save_turn(turn, { guess: guess, hints: compare_value(guess, secret_code) })
+      hints = compare_value(guess, secret_code)
+      p1.save_turn(turn, { guess: guess, hints: hints })
 
+      puts row_builder(guess, hints_to_arr(hints))
       p p1.view_turn(turn)
-      p p1.game_save
 
       self.turn += 1
     end
