@@ -17,13 +17,17 @@ class Player
   end
 
   # Save actions performed by the player
-  def save_turn(key, *value)
+  def save_turn(key, value)
     game_save[key] = value
   end
 
   # Clear player save data
   def clear_save
     game_save.clear
+  end
+
+  def view_turn(turn)
+    game_save[turn]
   end
 end
 

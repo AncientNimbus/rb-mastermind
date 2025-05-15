@@ -64,7 +64,7 @@ module CliHelper
     disable_user_input?(false)
   end
 
-  # A method that masked user input
+  # A method that masked user input.
   # @return [String]
   # @version 1.0.0
   def get_secret(str = 'Enter your secret: ')
@@ -74,7 +74,7 @@ module CliHelper
     secret
   end
 
-  # Disable user input when prompt is printing
+  # Disable user input when prompt is printing.
   # @param toggle [Boolean] toggle true to disable user input
   # @version 1.0.0
   def disable_user_input?(toggle)

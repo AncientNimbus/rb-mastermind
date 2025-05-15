@@ -17,14 +17,13 @@ module Logic
     num_arr.product(*b_arr)
   end
 
-  # Select and return element(s) randomly from an array object.
+  # Select and return an element randomly from an array object.
   #
   # @param arr [Array<Object>] array of objects
-  # @param output_elem [Integer] number of random elements to return
-  # @return [Array<Object>] an array of random element(s)
-  # @version 1.0.0
-  def random_picker(arr, output_elem = 1)
-    arr.sample(output_elem)
+  # @return the random element
+  # @version 1.1.0
+  def random_picker(arr)
+    arr.sample
   end
 
   # Compares a guess against the secret code and returns
@@ -32,10 +31,12 @@ module Logic
   # @param guess [Array<Integer>] the guessed code
   # @param secret [Array<Integer>] the secret code to compare against
   # @return [Hash] A hash with keys :red and :white indicating the match counts
-  # @version 1.0.0
+  # @version 1.1.0
   def compare_value(guess, secret)
-    reds = count_exact_matches(guess, secret)
-    whites = count_value_matches(guess, secret)
+    guess_dup = guess.dup
+    secret_dup = secret.dup
+    reds = count_exact_matches(guess_dup, secret_dup)
+    whites = count_value_matches(guess_dup, secret_dup)
 
     { red: reds, white: whites }
   end

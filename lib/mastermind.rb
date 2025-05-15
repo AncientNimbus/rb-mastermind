@@ -64,16 +64,18 @@ class Mastermind
 
   def game_loop
     until win || turn > turns
-      p "Cheat: Secret is #{secret_code.join}"
-      p1.save_turn(turn, prompt_handler(:play))
+      p "Cheat: Secret is #{secret_code}"
+      guess = prompt_handler(:play).split('').map(&:to_i)
+      p1.save_turn(turn, { guess: guess, hints: compare_value(guess, secret_code) })
 
-      p1.game_save.each_value do |guess|
-        self.win = guess.join.match?(secret_code.join) || false
-      end
+      p p1.view_turn(turn)
+      p p1.game_save
+
+      # p1.game_save.each_value do |guess|
+      #   self.win = guess.join.match?(secret_code.join) || false
+      # end
 
       self.turn += 1
-
-      p p1.game_save
 
     end
     announce_winner
