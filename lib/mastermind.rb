@@ -10,7 +10,7 @@ require_relative 'cli_helper'
 #
 # @author Ancient Nimbus
 # @since 0.1.0
-# @version 0.9.1
+# @version 0.9.2
 class Mastermind
   include CliHelper
   include Logic
@@ -40,12 +40,12 @@ class Mastermind
   # - mode 2: Computer as the code breaker
   def mode_selection
     @mode = prompt_handler(:mode).to_i
-    mode == 1 ? typewriter(MSGS.dig(:mode, :pve)) : typewriter(MSGS.dig(:mode, :evp))
+    typewriter(MSGS.dig(:mode, prompt_picker(:pve)))
     @p1 = create_player
     @ai = Computer.new
 
     slowed_reply(MSGS.dig(:welcome, :msg).call(p1.name))
-    new_game(mode)
+    new_game
   end
 
   # Access the Player class to create a human player
@@ -103,14 +103,15 @@ class Mastermind
   # @version 2.0.0
   def play_turn
     mode == 1 ? input_to_code(prompt_handler(:play)) : random_picker(all_codes)
+    # mode == 1 ? input_to_code(prompt_handler(:play)) : [1, 2, 3, 4] # Test
   end
 
   # Start a new game based on the selected mode
   # @version 2.0.0
-  def new_game(mode = 1)
+  def new_game
     init_game
     # Setting the row title depending on the chosen mode
-    title = mode == 1 ? MSGS.dig(:row_title1, :msg) : MSGS.dig(:row_title2, :msg).call(print_code(secret_code))
+    title = MSGS.dig(prompt_picker(:row_title1), :msg).call(print_code(secret_code))
     # display a blank board
     slowed_reply(row_builder(title: title), tw_delay: 0.01)
     # Enter game loop
@@ -119,29 +120,33 @@ class Mastermind
 
   # Display winner's messages
   def announce_winner
-    if win
-      slowed_reply(MSGS.dig(:win, :msg).call(p1.name, turn))
-    else
-      slowed_reply(MSGS.dig(:lose, :msg).call(p1.name, print_code(secret_code)))
-    end
+    p1_name = p1.name
+    response = win ? [:win, p1_name, turn] : [:lose, p1_name, print_code(secret_code)]
+
+    slowed_reply(MSGS.dig(prompt_picker(response[0]), :msg).call(response[1], response[2]))
+
     restart
   end
 
   # Prompt user to restart the game
   def restart
-    prompt_handler(:rst) ? new_game(mode) : exit
+    prompt_handler(:rst) ? new_game : exit
+  end
+
+  private
+
+  # Pick which strings to call depending on mode
+  def prompt_picker(symbol)
+    return symbol if mode == 1
+
+    mode2 = { pve: :evp, row_title1: :row_title2, win: :win_ai, lose: :lose_ai }
+    mode2[symbol]
   end
 
   # Print secret code with colored icons
   def print_code(range = [*1..4])
-    arr = []
-    range.each do |num|
-      arr.push("#{DF[:"d#{num}"]} ")
-    end
-    arr.join(' ')
+    range.map { |num| "#{DF[:"d#{num}"]} " }.join(' ')
   end
-
-  private
 
   # Calculate and return every valid combinations of the game.
   def all_combinations

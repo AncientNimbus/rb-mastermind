@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.9.1
+# @version 0.9.2
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -43,11 +43,7 @@ module MastermindAssets
 
   # Helper method to build help string
   def self.build_help(range = [*1..6])
-    arr = []
-    range.each do |num|
-      arr.push("#{num} ➜ #{DF[:"d#{num}"]} ")
-    end
-    arr.join(' ')
+    range.map { |num| "#{num} ➜ #{DF[:"d#{num}"]} " }.join(' ')
   end
   # Input Helper
   HELP = MastermindAssets.build_help
@@ -73,7 +69,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.1                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.2                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -126,7 +122,7 @@ module MastermindAssets
           fb_msg1: ->(name) { "* #{name} is thinking..." },
           fb_msg2: ->(name, code) { "* #{name} has entered #{code}!" } },
 
-    row_title1: { msg: 'Computer has chosen **** as secret code, and you have 12 attempts to crack it.' },
+    row_title1: { msg: ->(_code) { 'Computer has chosen **** as secret code, and you have 12 attempts to crack it.' } },
 
     row_title2: { msg: ->(code) { "Your code: #{code} is stored, and computer has 12 attempts to crack it." } },
 
@@ -136,8 +132,10 @@ module MastermindAssets
       "* Mastermind #{name}! You cracked the code in #{turn} turn#{'s' if turn > 1}! Well done!"
     } },
 
-    lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } }
-  }.freeze
+    win_ai: { msg: ->(_name, turn) { "* Mighty Computer has cracked your code in #{turn} turn#{'s' if turn > 1}!" } },
 
-  # @todo: Mode 2
+    lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } },
+
+    lose_ai: { msg: ->(name, _code) { "* #{name}, you have outsmarted your mighty computer, well done!" } }
+  }.freeze
 end
