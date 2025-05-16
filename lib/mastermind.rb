@@ -18,7 +18,7 @@ class Mastermind
   attr_reader :game_config
 
   def initialize(turns = 12, digits: 6, slots: 4)
-    # welcome
+    welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
     # Enter game session
@@ -42,7 +42,7 @@ class Mastermind
     @p1 = create_player
     @ai = Computer.new
 
-    slowed_reply("* Welcome to Mastermind, #{p1.name} ;)")
+    slowed_reply(MSGS.dig(:welcome, :msg).call(p1.name))
     new_game(mode)
   end
 
@@ -54,14 +54,14 @@ class Mastermind
 
   # Build the game display
   def row_builder(guess = [0, 0, 0, 0], hints = [0, 0, 0, 0], title: "Turn: #{turn}")
-    puts <<~ROW
+    <<~ROW
       #{title}
       *-----+-----+-----+-----*---+---*
       |     |     |     |     | #{DF[:"h#{hints.fetch(0, 0)}"]} | #{DF[:"h#{hints.fetch(1, 0)}"]} |
       |  #{DF[:"d#{guess.fetch(0, 0)}"]}  |  #{DF[:"d#{guess.fetch(1, 0)}"]}  |  #{DF[:"d#{guess.fetch(2, 0)}"]}  |  #{DF[:"d#{guess.fetch(3, 0)}"]}  |---+---|
       |     |     |     |     | #{DF[:"h#{hints.fetch(2, 0)}"]} | #{DF[:"h#{hints.fetch(3, 0)}"]} |
       *-----+-----+-----+-----*---+---*
-      #{HELP}
+      Help: #{HELP}
     ROW
   end
 
@@ -90,7 +90,7 @@ class Mastermind
       # Save turn to player's save data
       p1.save_turn(turn, { guess: guess, hints: hints })
       # print turn to board display
-      row_builder(guess, hints_to_arr(hints))
+      slowed_reply(row_builder(guess, hints_to_arr(hints)), tw_delay: 0.01)
 
       self.turn += 1 unless win
     end
@@ -103,23 +103,36 @@ class Mastermind
   end
 
   # Start a new game based on the selected mode
-  def new_game(mode = 1)
-    puts "Starting mode: #{mode}"
+  def new_game(_mode = 1)
+    # puts "Starting mode: #{mode}"
     init_game
     # display a blank board
-    row_builder(title: MSGS[:row_title][:msg])
+    slowed_reply(row_builder(title: MSGS[:row_title][:msg]), tw_delay: 0.01)
     game_loop
   end
 
   # Display winner's messages
   def announce_winner
-    puts "Somebody win in #{turn} turn!"
+    if win
+      slowed_reply(MSGS.dig(:win, :msg).call(p1.name, turn))
+    else
+      slowed_reply(MSGS.dig(:lose, :msg).call(p1.name, print_code(secret_code)))
+    end
     restart
   end
 
   # Prompt user to restart the game
   def restart
     prompt_handler(:rst) ? new_game(mode) : exit
+  end
+
+  # Print secret code with colored icons
+  def print_code(range = [*1..4])
+    arr = []
+    range.each do |num|
+      arr.push("#{DF[:"d#{num}"]} ")
+    end
+    arr.join(' ')
   end
 
   private
@@ -139,6 +152,8 @@ class Mastermind
   def code_picker
     mode == 1 ? ai.code_gen(all_codes) : [1, 2, 3, 4]
   end
+
+  CliHelper.do_at_exit(MSGS.dig(:exit, :msg))
 end
 
 # ### TODO Requirements
@@ -146,7 +161,4 @@ end
 # 9. Let computer to be code breaker
 # 11. Get computer random input (easy mode)
 # 12. Get input from algorithmic solver (hardest part of the project!) (hard mode)
-# Break loop when there is a match
 # Global typewriter switch
-# Rewrite Game loop
-#

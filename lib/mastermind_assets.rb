@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.8.1
+# @version 0.8.2
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -42,15 +42,15 @@ module MastermindAssets
   ROW
 
   # Helper method to build help string
-  def self.build_help
+  def self.build_help(range = [*1..6])
     arr = []
-    6.to_i.times do |idx|
-      arr.push("#{idx + 1} ➜ #{DF[:"d#{idx + 1}"]} ")
+    range.each do |num|
+      arr.push("#{num} ➜ #{DF[:"d#{num}"]} ")
     end
-    arr
+    arr.join(' ')
   end
   # Input Helper
-  HELP = MastermindAssets.build_help.join(' ')
+  HELP = MastermindAssets.build_help
 
   # Pre-launch info
   START = <<~PRE.freeze
@@ -73,7 +73,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.8.1                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.8.2                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -91,11 +91,11 @@ module MastermindAssets
 
     Mode selection:
      * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess the code!
-     * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test!
+     * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test! (Coming Soon!)
 
     Game layout:
     #{ROW}
-     * #{HELP}
+    Help: #{HELP}
 
     You can type #{TFH[:exit_cmd]} to leave the game at any point.
   HOW
@@ -103,6 +103,8 @@ module MastermindAssets
   # Text strings for the game
   MSGS = {
     keys: { exit: 'exit', yes: 'yes' },
+
+    exit: { msg: '* Thank you for playing LLAP 🖖' },
 
     mode: { re: /\A[1-2]\z/,
             msg: "Select a mode to continue... (Type: #{TFH[:mode1]} or #{TFH[:mode2]})",
@@ -128,7 +130,9 @@ module MastermindAssets
 
     row_title: { msg: 'Computer has chosen **** as secret code, and you have 12 attempts to crack it.' },
 
-    win: { msg: ->(name) { "* #{name}, you have cracked the code! You are the Mastermind!" } },
+    welcome: { msg: ->(name) { "* Welcome to Mastermind, #{name.colorize(:yellow)} ;)" } },
+
+    win: { msg: ->(name, turn) { "* Mastermind #{name}! You cracked the code in #{turn} turns! Well done!" } },
 
     lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } }
   }.freeze

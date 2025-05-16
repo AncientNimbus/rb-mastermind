@@ -35,7 +35,7 @@ module CliHelper
   # @param delay [Float] character output rate in second
   # @return [nil] an empty line
   # @version 1.0.0
-  def typewriter(str, delay: 0.05)
+  def typewriter(str, delay: 0.025)
     str.each_char do |char|
       print char
       sleep(delay)
@@ -50,8 +50,8 @@ module CliHelper
   # @param type_mode [Boolean] toggle true to enable typewriter style output
   # @param tw_delay [Float] character output rate in second
   # @return [void]
-  # @version 1.2.0
-  def slowed_reply(str_arr, delay: 0.5, type_mode: true, tw_delay: 0.04)
+  # @version 1.2.1
+  def slowed_reply(str_arr, delay: 0.2, type_mode: true, tw_delay: 0.025)
     str_arr = [str_arr] if str_arr.is_a?(String)
     disable_user_input?(true)
     puts
@@ -89,6 +89,7 @@ module CliHelper
   # @return [void]
   # @version 1.0.0
   def self.do_at_exit(str = '* Bye~')
+    puts
     at_exit { puts str }
   end
 end
