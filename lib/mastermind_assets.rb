@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.8.0
+# @version 0.8.1
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -45,7 +45,7 @@ module MastermindAssets
   def self.build_help
     arr = []
     6.to_i.times do |idx|
-      arr.push("#{DF[:"d#{idx + 1}"]} ➜ #{idx + 1}")
+      arr.push("#{idx + 1} ➜ #{DF[:"d#{idx + 1}"]} ")
     end
     arr
   end
@@ -73,7 +73,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.8.0                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.8.1                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 

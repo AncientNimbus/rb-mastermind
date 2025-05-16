@@ -26,23 +26,24 @@ module Logic
     arr.sample
   end
 
-  # Compares a guess against the secret code and returns
-  #  the count of exact matches (red) and value matches (white) as a hash.
+  # Compares a guess against the secret code and returns the count of exact matches (red) and
+  # value matches (white) as a hash and boolean flag if there is a full match.
   # @param guess [Array<Integer>] the guessed code
   # @param secret [Array<Integer>] the secret code to compare against
-  # @return [Hash] A hash with keys :red and :white indicating the match counts
-  # @version 1.1.0
+  # @return [Array<Hash, Boolean>] A hash with keys :red and :white indicating the match counts,
+  #  a bool that flags true when there is a full match.
+  # @version 2.0.0
   def compare_value(guess, secret)
     guess_dup = guess.dup
     secret_dup = secret.dup
     reds = count_exact_matches(guess_dup, secret_dup)
     whites = count_value_matches(guess_dup, secret_dup)
 
-    { red: reds, white: whites }
+    [{ red: reds, white: whites }, reds == 4]
   end
 
   # Counts the number of exact matches (same value at the same index)
-  #  Modifies the guess and secret arrays by setting matched elements to nil.
+  # Modifies the guess and secret arrays by setting matched elements to nil.
   # @param guess [Array<Integer>] the guessed code
   # @param secret [Array<Integer>] the secret code to compare against
   # @return [Integer] The count of exact matching values
@@ -77,6 +78,7 @@ module Logic
 
   # Convert hints hash to array
   #
+  # @since 0.8.0
   # @version 2.0.0
   def hints_to_arr(hints, shuffle: true)
     arr = []

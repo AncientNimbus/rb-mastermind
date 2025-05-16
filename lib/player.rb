@@ -28,6 +28,7 @@ class Player
     game_save.clear
   end
 
+  # Return save data of a single turn
   def view_turn(turn)
     game_save[turn]
   end
@@ -44,6 +45,7 @@ end
 # Computer is a subclass of the Player class
 #
 # @author Ancient Nimbus
+# @since 0.1.0
 class Computer < Player
   def initialize(name = 'Computer')
     super(name)

@@ -17,11 +17,6 @@ class Mastermind
   attr_accessor :all_codes, :turns, :digits_arr, :slots, :mode, :secret_code, :turn, :win, :p1, :ai
   attr_reader :game_config
 
-  # Coloring options for main slots
-  PEGS = { 1 => :green, 2 => :yellow, 3 => :blue, 4 => :magenta, 5 => :cyan, 6 => :red }.freeze
-  # Coloring options for hint slots
-  STATES = { red: :red, white: :white, default: :grey }.freeze
-
   def initialize(turns = 12, digits: 6, slots: 4)
     # welcome
     # Game board configuration
@@ -66,6 +61,7 @@ class Mastermind
       |  #{DF[:"d#{guess.fetch(0, 0)}"]}  |  #{DF[:"d#{guess.fetch(1, 0)}"]}  |  #{DF[:"d#{guess.fetch(2, 0)}"]}  |  #{DF[:"d#{guess.fetch(3, 0)}"]}  |---+---|
       |     |     |     |     | #{DF[:"h#{hints.fetch(2, 0)}"]} | #{DF[:"h#{hints.fetch(3, 0)}"]} |
       *-----+-----+-----+-----*---+---*
+      #{HELP}
     ROW
   end
 
@@ -89,16 +85,21 @@ class Mastermind
   def game_loop
     until win || turn > turns
       # p "Cheat: Secret is #{secret_code}"
-      guess = prompt_handler(:play).split('').map(&:to_i)
-      hints = compare_value(guess, secret_code)
+      guess = play_turn
+      hints, self.win = compare_value(guess, secret_code)
+      # Save turn to player's save data
       p1.save_turn(turn, { guess: guess, hints: hints })
-
+      # print turn to board display
       row_builder(guess, hints_to_arr(hints))
-      # p p1.view_turn(turn)
 
-      self.turn += 1
+      self.turn += 1 unless win
     end
     announce_winner
+  end
+
+  # Prompt user to get the 4 digit guess
+  def play_turn
+    prompt_handler(:play).split('').map(&:to_i)
   end
 
   # Start a new game based on the selected mode
@@ -112,7 +113,7 @@ class Mastermind
 
   # Display winner's messages
   def announce_winner
-    puts 'Somebody win'
+    puts "Somebody win in #{turn} turn!"
     restart
   end
 
@@ -145,3 +146,7 @@ end
 # 9. Let computer to be code breaker
 # 11. Get computer random input (easy mode)
 # 12. Get input from algorithmic solver (hardest part of the project!) (hard mode)
+# Break loop when there is a match
+# Global typewriter switch
+# Rewrite Game loop
+#
