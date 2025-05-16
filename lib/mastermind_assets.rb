@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.8.2
+# @version 0.9.0
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -73,7 +73,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.8.2                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.0                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -106,23 +106,21 @@ module MastermindAssets
 
     exit: { msg: '* Thank you for playing LLAP 🖖' },
 
-    mode: { re: /\A[1-2]\z/,
-            msg: "Select a mode to continue... (Type: #{TFH[:mode1]} or #{TFH[:mode2]})",
+    mode: { re: /\A[1-2]\z/, msg: "Select a mode to continue... (Type: #{TFH[:mode1]} or #{TFH[:mode2]})",
             err_msg: 'Please enter a valid mode number!',
-            evp: '* Code Maker mode selected',
-            pve: '* Code Breaker mode selected' },
+            evp: '* Code Maker mode selected', pve: '* Code Breaker mode selected' },
 
-    rst: { re: /\byes|y\b/,
-           msg: "Restart? Type: 'y'/'yes' or 'exit' to quit",
+    rst: { re: /\byes|y\b/, msg: "Restart? Type: 'y'/'yes' or 'exit' to quit",
            err_msg: 'Please enter a valid input!' },
 
-    player: { re: /.*/,
-              msg: ->(num) { "Please name Player #{num}" },
+    player: { re: /.*/, msg: ->(num) { "Please name Player #{num}" },
               err_msg: 'Name cannot be empty!' },
 
-    play: { re: /\A[1-6]{4}\z/,
-            msg: 'Make a guess...',
+    play: { re: /\A[1-6]{4}\z/, msg: 'Make a guess...',
             err_msg: 'Invalid input! Enter a 4-digit number between 1-6 (e.g., 4216)' },
+
+    pick_code: { re: /\A[1-6]{4}\z/, msg: 'Create a secret code...',
+                 err_msg: 'Invalid input! Enter a 4-digit number between 1-6 (e.g., 4216)' },
 
     ai: { name: 'Computer',
           fb_msg1: ->(name) { "* #{name} is thinking..." },
@@ -132,7 +130,9 @@ module MastermindAssets
 
     welcome: { msg: ->(name) { "* Welcome to Mastermind, #{name.colorize(:yellow)} ;)" } },
 
-    win: { msg: ->(name, turn) { "* Mastermind #{name}! You cracked the code in #{turn} turns! Well done!" } },
+    win: { msg: lambda { |name, turn|
+      "* Mastermind #{name}! You cracked the code in #{turn} turn#{'s' if turn > 1}! Well done!"
+    } },
 
     lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } }
   }.freeze

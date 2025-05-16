@@ -18,7 +18,7 @@ class Mastermind
   attr_reader :game_config
 
   def initialize(turns = 12, digits: 6, slots: 4)
-    welcome
+    # welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
     # Enter game session
@@ -73,6 +73,7 @@ class Mastermind
 
     @all_codes = all_combinations
     @secret_code = code_picker
+    p "Cheat: Secret is #{secret_code}"
 
     @turn = 1
     @win = false
@@ -84,7 +85,6 @@ class Mastermind
   # Core game loop
   def game_loop
     until win || turn > turns
-      # p "Cheat: Secret is #{secret_code}"
       guess = play_turn
       hints, self.win = compare_value(guess, secret_code)
       # Save turn to player's save data
@@ -99,7 +99,7 @@ class Mastermind
 
   # Prompt user to get the 4 digit guess
   def play_turn
-    prompt_handler(:play).split('').map(&:to_i)
+    input_to_code(prompt_handler(:play))
   end
 
   # Start a new game based on the selected mode
@@ -150,7 +150,7 @@ class Mastermind
 
   # Determine how the code is created based on game mode.
   def code_picker
-    mode == 1 ? ai.code_gen(all_codes) : [1, 2, 3, 4]
+    mode == 1 ? ai.code_gen(all_codes) : input_to_code(prompt_handler(:pick_code))
   end
 
   CliHelper.do_at_exit(MSGS.dig(:exit, :msg))

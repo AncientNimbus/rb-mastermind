@@ -89,4 +89,11 @@ module Logic
     end
     shuffle ? arr.shuffle : arr
   end
+
+  # Convert user input and return a valid code as Array
+  # @param input_code [String] user input
+  # @since 0.9.0
+  def input_to_code(input_code)
+    input_code.split('').map(&:to_i)
+  end
 end
