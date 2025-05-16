@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.9.3
+# @version 0.9.4
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -69,7 +69,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.3                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.4                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -87,7 +87,7 @@ module MastermindAssets
 
     Mode selection:
      * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess the code!
-     * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test! (Coming Soon!)
+     * [#{TFH[:mode2]}] Become the Code Maker   - Put your computer to the test!
 
     Game layout:
     #{ROW}

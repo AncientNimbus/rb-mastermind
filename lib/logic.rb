@@ -96,4 +96,60 @@ module Logic
   def input_to_code(input_code)
     input_code.split('').map(&:to_i)
   end
+
+  # The minimax solver method
+  # @param options_arr [Array] nested array containing valid codes [[1, 2, 3, 4]]
+  # @param all_options_arr [Array] nested array containing all valid codes [[1, 1, 1, 1]...[6, 6, 6, 6]]
+  # @return [Array<Integer>] best guess
+  # @ since 0.9.4
+  # @ version 1.0.0
+  def minimax_solver(options_arr, all_opts_arr)
+    remaining_length = options_arr.length
+    # first move
+    return [1, 1, 2, 2] if remaining_length == all_opts_arr.length
+
+    # last two moves
+    options_arr.sample if remaining_length <= 2
+
+    best_guess = nil
+    # Using infinity rather than random huge numbers
+    min_max_remaining = Float::INFINITY
+
+    # Rejection only kicks in if the array length is less than 8
+    guesses = remaining_length < 8 ? options_arr : all_opts_arr
+
+    guesses.each do |guess|
+      max_remaining = 0
+      feedback_counts = Hash.new(0)
+
+      options_arr.each do |code|
+        feedback = compare_value(guess, code)[0]
+        # p feedback
+        feedback_counts[feedback] += 1
+      end
+
+      # Worst-case
+      max_remaining = feedback_counts.values.max
+
+      if max_remaining < min_max_remaining
+        min_max_remaining = max_remaining
+        best_guess = guess
+      end
+    end
+    # p "printing best guess: #{best_guess}"
+    best_guess
+  end
+
+  # Remove elements from the remaining options array that has the same feedback as the current guess
+  # Technically, the computer ended up playing more than 12 turns! Not fair lol...
+  # @return [Array] remaining options after reductions
+  # @since 0.9.4
+  # @version 1.0.0
+  def remove_opts(guess, hints, options_arr)
+    options_arr.select! do |code|
+      compare_value(guess, code)[0] == hints
+    end
+    # p "from remove opt: #{options_arr.length} possibilities remaining"
+    options_arr
+  end
 end

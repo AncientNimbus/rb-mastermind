@@ -10,7 +10,7 @@ require_relative 'cli_helper'
 #
 # @author Ancient Nimbus
 # @since 0.1.0
-# @version 0.9.3
+# @version 0.9.4
 class Mastermind
   include CliHelper
   include Logic
@@ -21,10 +21,11 @@ class Mastermind
   attr_accessor :all_codes, :turns, :digits_arr, :slots, :mode, :secret_code, :turn, :win, :p1, :ai
   attr_reader :game_config
 
-  def initialize(turns = 2, digits: 6, slots: 4)
+  def initialize(turns = 12, digits: 6, slots: 4)
     welcome
     # Game board configuration
     @game_config = { turns: turns, digits: (1..digits).to_a, slots: slots }
+    @all_codes = all_combinations
     # Enter game session
     mode_selection
   end
@@ -44,7 +45,7 @@ class Mastermind
     @mode = prompt_handler(:mode).to_i
     typewriter(MSGS.dig(:mode, prompt_picker(:pve)))
     @p1 = create_player
-    @ai = Computer.new
+    @ai = Computer.new(all_codes)
 
     slowed_reply(MSGS.dig(:welcome, :msg).call(p1.name))
     new_game
@@ -82,8 +83,6 @@ class Mastermind
     @turns = game_config[:turns]
     @digits_arr = game_config[:digits]
     @slots = game_config[:slots]
-
-    @all_codes = all_combinations
     @secret_code = code_picker
     # p "Cheat: Secret is #{secret_code}"
 
@@ -95,25 +94,19 @@ class Mastermind
   end
 
   # Core game loop
-  def game_loop
+  # @version 2.0.0
+  def game_loop(player)
     until win || turn > turns
       guess = play_turn
       hints, self.win = compare_value(guess, secret_code)
-      # Save turn to player's save data
-      p1.save_turn(turn, { guess: guess, hints: hints })
+      # Save turn to current player's save data
+      player.save_turn(turn, { guess: guess, hints: hints })
       # print turn to board display
       print_turn(guess, hints)
 
       self.turn += 1 unless win
     end
     announce_result
-  end
-
-  # Prompt user to get the 4 digit guess
-  # @version 2.0.0
-  def play_turn
-    # mode == 1 ? input_to_code(prompt_handler(:play)) : random_picker(all_codes)
-    mode == 1 ? input_to_code(prompt_handler(:play)) : [1, 2, 3, 4] # Test
   end
 
   # Start a new game based on the selected mode
@@ -125,7 +118,13 @@ class Mastermind
     # display a blank board
     slowed_reply(row_builder(title: title), tw_delay: 0.01)
     # Enter game loop
-    game_loop
+    game_loop(mode == 1 ? p1 : ai)
+  end
+
+  # Prompt user to get the 4 digit guess
+  # @version 2.0.0
+  def play_turn
+    mode == 1 ? input_to_code(prompt_handler(:play)) : ai.code_solver
   end
 
   # Display session result
@@ -164,7 +163,7 @@ class Mastermind
 
   # Calculate and return every valid combinations of the game.
   def all_combinations
-    combinations(digits_arr, slots)
+    combinations(game_config[:digits], game_config[:slots])
   end
 
   # Helper to trim down repeated typing when accessing eternal textfile.
@@ -182,5 +181,4 @@ class Mastermind
 end
 
 # ### TODO Requirements
-# 12. Get input from algorithmic solver (hardest part of the project!) (hard mode)
 # Global typewriter switch
