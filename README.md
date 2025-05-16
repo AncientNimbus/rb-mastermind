@@ -3,6 +3,7 @@
 
 ## Features v0.8.2
 
+[Gameplay showcase](https://youtu.be/zCrGmo6aGws)
 1. Code Breaker mode is fully playable (Mode 1)
 2. Typewriter like gameplay experience
 3. Colourful digits and board designs that closely mimics the real thing
