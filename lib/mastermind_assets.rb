@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.9.2
+# @version 0.9.3
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -69,7 +69,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.2                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.3                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -119,8 +119,7 @@ module MastermindAssets
                  err_msg: 'Invalid input! Enter a 4-digit number between 1-6 (e.g., 4216)' },
 
     ai: { name: 'Computer',
-          fb_msg1: ->(name) { "* #{name} is thinking..." },
-          fb_msg2: ->(name, code) { "* #{name} has entered #{code}!" } },
+          fb_msg: ->(name, code) { "* #{name} is thinking...\n* #{name} has entered: #{code.colorize(:red)}!" } },
 
     row_title1: { msg: ->(_code) { 'Computer has chosen **** as secret code, and you have 12 attempts to crack it.' } },
 
