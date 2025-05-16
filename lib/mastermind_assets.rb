@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 1.0.0
+# @version 1.0.1
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -69,7 +69,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 1.0.0                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 1.0.1                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -132,7 +132,7 @@ module MastermindAssets
     } },
 
     win_ai: { msg: lambda { |_name, turn|
-      "* Mighty Computer has cracked your code in #{turn.colorize(:red)} turn#{'s' if turn > 1}!"
+      "* Mighty Computer has cracked your code in #{turn} turn#{'s' if turn > 1}!"
     } },
 
     lose: { msg: ->(name, code) { "* This is a tough one #{name}, the secret code is #{code}." } },
