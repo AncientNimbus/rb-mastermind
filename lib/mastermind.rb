@@ -10,7 +10,7 @@ require_relative 'cli_helper'
 #
 # @author Ancient Nimbus
 # @since 0.1.0
-# @version 0.9.4
+# @version 1.0.0
 class Mastermind
   include CliHelper
   include Logic
@@ -35,7 +35,6 @@ class Mastermind
     slowed_reply(START, tw_delay: 0.025)
     gets
     slowed_reply([LOGO, HOW], tw_delay: 0.0025)
-    # slowed_reply(HOW, tw_delay: 0.025)
   end
 
   # Prompt user to select a mode and start the game mode accordingly
@@ -179,6 +178,3 @@ class Mastermind
 
   CliHelper.do_at_exit(MSGS.dig(:exit, :msg))
 end
-
-# ### TODO Requirements
-# Global typewriter switch

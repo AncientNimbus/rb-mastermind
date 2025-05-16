@@ -81,8 +81,8 @@ class Computer < Player
   # Solve player 1's code
   # @return [Array<Integer>]
   # @since 0.9.4
-  # @version 1.0.0
+  # @version 1.1.0
   def code_solver
-    minimax_solver(options_arr, all_options_arr)
+    best_guess(options_arr, all_options_arr)
   end
 end
