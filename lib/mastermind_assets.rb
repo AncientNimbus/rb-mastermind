@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 0.9.0
+# @version 0.9.1
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -73,7 +73,7 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.0                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 0.9.1                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
@@ -126,7 +126,9 @@ module MastermindAssets
           fb_msg1: ->(name) { "* #{name} is thinking..." },
           fb_msg2: ->(name, code) { "* #{name} has entered #{code}!" } },
 
-    row_title: { msg: 'Computer has chosen **** as secret code, and you have 12 attempts to crack it.' },
+    row_title1: { msg: 'Computer has chosen **** as secret code, and you have 12 attempts to crack it.' },
+
+    row_title2: { msg: ->(code) { "Your code: #{code} is stored, and computer has 12 attempts to crack it." } },
 
     welcome: { msg: ->(name) { "* Welcome to Mastermind, #{name.colorize(:yellow)} ;)" } },
 

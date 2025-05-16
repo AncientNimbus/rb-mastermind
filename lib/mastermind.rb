@@ -9,6 +9,8 @@ require_relative 'cli_helper'
 # Base class for the game Mastermind.
 #
 # @author Ancient Nimbus
+# @since 0.1.0
+# @version 0.9.1
 class Mastermind
   include CliHelper
   include Logic
@@ -98,16 +100,20 @@ class Mastermind
   end
 
   # Prompt user to get the 4 digit guess
+  # @version 2.0.0
   def play_turn
-    input_to_code(prompt_handler(:play))
+    mode == 1 ? input_to_code(prompt_handler(:play)) : random_picker(all_codes)
   end
 
   # Start a new game based on the selected mode
-  def new_game(_mode = 1)
-    # puts "Starting mode: #{mode}"
+  # @version 2.0.0
+  def new_game(mode = 1)
     init_game
+    # Setting the row title depending on the chosen mode
+    title = mode == 1 ? MSGS.dig(:row_title1, :msg) : MSGS.dig(:row_title2, :msg).call(print_code(secret_code))
     # display a blank board
-    slowed_reply(row_builder(title: MSGS[:row_title][:msg]), tw_delay: 0.01)
+    slowed_reply(row_builder(title: title), tw_delay: 0.01)
+    # Enter game loop
     game_loop
   end
 
@@ -157,8 +163,5 @@ class Mastermind
 end
 
 # ### TODO Requirements
-# 6. Let user to be code maker
-# 9. Let computer to be code breaker
-# 11. Get computer random input (easy mode)
 # 12. Get input from algorithmic solver (hardest part of the project!) (hard mode)
 # Global typewriter switch
