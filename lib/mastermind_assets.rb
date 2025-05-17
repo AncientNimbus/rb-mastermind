@@ -4,7 +4,7 @@ require 'colorize'
 # Mastermind CLI Assets Module
 #
 # @author Ancient Nimbus
-# @version 1.0.1
+# @version 1.0.2
 module MastermindAssets
   # Text Formatting helper
   TFH = {
@@ -69,21 +69,21 @@ module MastermindAssets
     | |.  \    /:  |/   /  \\  \ /" \   :)    \:  |  (:      "|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
     | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
     +                                                                                                               +
-    |                              A Command Line Game by: Ancient Nimbus | Ver: 1.0.1                              |
+    |                              A Command Line Game by: Ancient Nimbus | Ver: 1.0.2                              |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
   LOGO
 
   # How to play
   HOW = <<~HOW.freeze
-    How-to-play:
-     * The Code Maker will create a #{TFH[:digits]} digits sequence secret code.
-     * Each digit is set between #{TFH[:min_d]} to #{TFH[:max_d]}, and it can repeat. For example: 1216, 6542, 1166...
-     * The Code Breaker's goal is to try guess the secret code.
-     * After each guess, Code Breaker will receive a feedback represented by red and/or white dots.
-     * Red dot indicates the digit value is in the code, and at the right slot.
-     * White dot indicates the digit value is in the code, but at the wrong slot.
+    How to play:
+     * The Code Maker will create a secret code consisting of #{TFH[:digits]} digits.
+     * Each digit is between #{TFH[:min_d]} and #{TFH[:max_d]}, and digits may repeat. For example: 1216, 6542, 1166...
+     * The Code Breaker's goal is to guess the secret code.
+     * After each guess, the Code Breaker will receive feedback represented by red and/or white dots.
+     * A red dot indicates the digit is in the code and in the correct position.
+     * A white dot indicates the digit is in the code but in the wrong position.
      * The hints are not in order.
-     * Win the game by making the right guess within #{TFH[:turns]} turns.
+     * Win the game by guessing the code within #{TFH[:turns]} turns.
 
     Mode selection:
      * [#{TFH[:mode1]}] Become the Code Breaker - Try to guess the code!

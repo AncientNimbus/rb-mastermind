@@ -14,9 +14,13 @@
 7. Easy restart and program exit
 
 ## Gameplay showcase
+
 ### Code Breaker mode
+
 ![Mode 1](https://github.com/user-attachments/assets/8315d27d-7931-4309-a92e-9833b2bacef7)
+
 ### Code Maker mode
+
 ![Mode 2](https://github.com/user-attachments/assets/33d0c5d3-83f1-4960-94d9-7d36f1ea85c0)
 
 [Gameplay showcase v0.8.2](https://youtu.be/zCrGmo6aGws)
@@ -27,4 +31,5 @@
 - Colorize
 
 ---
+
 Learn more about [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game))

@@ -106,7 +106,7 @@
       
         
         <div class='inline'>
-<p>1.0.0</p>
+<p>1.0.2</p>
 </div>
       
     </li>
@@ -259,7 +259,7 @@
 </span><span class='tstring_content'>  | |.  \    /:  |/   /  \\  \ /&quot; \   :)    \:  |  (:      &quot;|:  __   \|.  \    /:  |/\  ||    \    \ |:       :)  |
 </span><span class='tstring_content'>  | |___|\__/|___(___/    \___(_______/      \__|   \_______|__|  \___|___|\__/|___(__\_|_\___|\____\(________/   |
 </span><span class='tstring_content'>  +                                                                                                               +
-</span><span class='tstring_content'>  |                              A Command Line Game by: Ancient Nimbus | Ver: 1.0.0                              |
+</span><span class='tstring_content'>  |                              A Command Line Game by: Ancient Nimbus | Ver: 1.0.2                              |
 </span><span class='tstring_content'>  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 </span><span class='heredoc_end'>LOGO</span></pre></dd>
       
@@ -278,15 +278,15 @@
 </div>
         </dt>
         <dd><pre class="code"><span class='heredoc_beg'>&lt;&lt;~HOW</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
-<span class='tstring_content'>  How-to-play:
-</span><span class='tstring_content'>   * The Code Maker will create a </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_digits'>digits</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> digits sequence secret code.
-</span><span class='tstring_content'>   * Each digit is set between </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_min_d'>min_d</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> to </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_max_d'>max_d</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>, and it can repeat. For example: 1216, 6542, 1166...
-</span><span class='tstring_content'>   * The Code Breaker&#39;s goal is to try guess the secret code.
-</span><span class='tstring_content'>   * After each guess, Code Breaker will receive a feedback represented by red and/or white dots.
-</span><span class='tstring_content'>   * Red dot indicates the digit value is in the code, and at the right slot.
-</span><span class='tstring_content'>   * White dot indicates the digit value is in the code, but at the wrong slot.
+<span class='tstring_content'>  How to play:
+</span><span class='tstring_content'>   * The Code Maker will create a secret code consisting of </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_digits'>digits</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> digits.
+</span><span class='tstring_content'>   * Each digit is between </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_min_d'>min_d</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> and </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_max_d'>max_d</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>, and digits may repeat. For example: 1216, 6542, 1166...
+</span><span class='tstring_content'>   * The Code Breaker&#39;s goal is to guess the secret code.
+</span><span class='tstring_content'>   * After each guess, the Code Breaker will receive feedback represented by red and/or white dots.
+</span><span class='tstring_content'>   * A red dot indicates the digit is in the code and in the correct position.
+</span><span class='tstring_content'>   * A white dot indicates the digit is in the code but in the wrong position.
 </span><span class='tstring_content'>   * The hints are not in order.
-</span><span class='tstring_content'>   * Win the game by making the right guess within </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_turns'>turns</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> turns.
+</span><span class='tstring_content'>   * Win the game by guessing the code within </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_turns'>turns</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> turns.
 </span><span class='tstring_content'>
 </span><span class='tstring_content'>  Mode selection:
 </span><span class='tstring_content'>   * [</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TFH-constant" title="MastermindAssets::TFH (constant)">TFH</a></span></span><span class='lbracket'>[</span><span class='symbeg'>:</span><span class='id identifier rubyid_mode1'>mode1</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>] Become the Code Breaker - Try to guess the code!
@@ -348,7 +348,7 @@
   <span class='rbrace'>}</span> <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='label'>win_ai:</span> <span class='lbrace'>{</span> <span class='label'>msg:</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__name'>_name</span><span class='comma'>,</span> <span class='id identifier rubyid_turn'>turn</span><span class='op'>|</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>* Mighty Computer has cracked your code in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_turn'>turn</span><span class='period'>.</span><span class='id identifier rubyid_colorize'>colorize</span><span class='lparen'>(</span><span class='symbol'>:red</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> turn</span><span class='embexpr_beg'>#{</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_turn'>turn</span> <span class='op'>&gt;</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>* Mighty Computer has cracked your code in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_turn'>turn</span><span class='embexpr_end'>}</span><span class='tstring_content'> turn</span><span class='embexpr_beg'>#{</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_turn'>turn</span> <span class='op'>&gt;</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='rbrace'>}</span> <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='label'>lose:</span> <span class='lbrace'>{</span> <span class='label'>msg:</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>* This is a tough one </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, the secret code is </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_code'>code</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='rbrace'>}</span><span class='comma'>,</span>
@@ -452,7 +452,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat May 17 00:04:40 2025 by
+  Generated on Sat May 17 11:52:38 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.2).
 </div>
