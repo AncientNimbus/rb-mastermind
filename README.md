@@ -1,5 +1,5 @@
 # Mastermind ♦️
-<img width="987" alt="SCR-20250516-kwkx" src="https://github.com/user-attachments/assets/70a6b819-6ac6-43a4-9aed-1ff47360ce3d" />
+<img width="982" alt="Cover Image" src="https://github.com/user-attachments/assets/baa3f897-4783-4868-b7d8-7189297ca84f" />
 
 ## Features v1.0.0
 
