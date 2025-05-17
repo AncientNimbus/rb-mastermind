@@ -1,5 +1,6 @@
 # Mastermind ♦️
-<img width="982" alt="Cover Image" src="https://github.com/user-attachments/assets/baa3f897-4783-4868-b7d8-7189297ca84f" />
+
+<img width="977" alt="Mastermind Intro v1.0.2" src="https://github.com/user-attachments/assets/d0ed2afa-b833-4c42-a807-f9cbf47f24c3" />
 
 ## Features v1.0.0
 
