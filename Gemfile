@@ -7,3 +7,5 @@ source 'https://rubygems.org'
 gem 'colorize', '~> 1.1'
 
 gem 'rubocop', '~> 1.75'
+
+gem "yard", "~> 0.9.37"
